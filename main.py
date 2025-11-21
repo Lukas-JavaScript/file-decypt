@@ -1,7 +1,5 @@
 from cryptography import fernet
 import os
-import sys
-from encodings import undefined
 
 key = fernet.Fernet.generate_key()
 folder_name = None
@@ -20,15 +18,11 @@ if file_or_folder.lower() == 'f':
 else:
     file = False
     folder = True
-    folder_name = input(f"Enter the folder name to create and process files: (default: {sys.path[0]}) ")
+    folder_name = input(f"Enter the folder name to create and process files: ")
     if not os.path.exists(folder_name):
         print(f"The folder '{folder_name}' does not exist. ")
         input("Press Enter to exit...")
         exit()
-    if folder_name == "":
-        folder_name = sys.path[0]
-    elif folder_name == undefined:
-        folder_name = sys.path[0]
 
 print("""Do you want to 
 1.encrypt 
