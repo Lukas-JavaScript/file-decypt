@@ -2,8 +2,18 @@ from cryptography import fernet
 import os
 
 key = fernet.Fernet.generate_key()
+folder_name = None
+file_name = None
 
-folder_name = input("Enter the folder name to create and process files: ")
+file_or_folder = input("Do you want to process a file or a folder? (f for file / d for directory): ")
+if file_or_folder.lower() == 'f':
+    file = True
+    folder = False
+    file_name = input("Enter the file name to process: ")
+else:
+    file = False
+    folder = True
+    folder_name = input("Enter the folder name to create and process files: ")
 
 print("""Do you want to 
 1.encrypt 
@@ -72,10 +82,16 @@ def decrypt_file(file_path, key):
     except Exception as e:
         print(f"An error occurred during decryption: {file_path}: {e}")
 
-
-get_all_files(folder_name)
-for file in file_paths:
+if folder:
+    get_all_files(folder_name)
+    for file in file_paths:
+        if encrypting:
+            encrypt_file(file, key)
+        elif decrypting:
+            decrypt_file(file, key)
+elif file:
     if encrypting:
-        encrypt_file(file, key)
+        encrypt_file(file_name, key)
     elif decrypting:
-        decrypt_file(file, key)
+        decrypt_file(file_name, key)
+print("Process completed.")
