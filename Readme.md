@@ -4,8 +4,6 @@ This project is a powerful tool that can encrypt and decrypt single files or ent
 
 Available both as a Python script and as a Windows EXE.
 
-⸻
-
 ## ✨ Features
 
 — 🔑 Automatic key generation
@@ -24,10 +22,11 @@ Available both as a Python script and as a Windows EXE.
 	4.	Run it with a double-click.
 
 ## Benefits of the EXE version:
-— No Python required
-— Portable
-— Fully offline
-— Zero setup
+
+- No Python required
+- Portable
+- Fully offline
+- Zero setup
 
 
 ## 📦 Requirements
