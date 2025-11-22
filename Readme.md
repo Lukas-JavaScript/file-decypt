@@ -6,14 +6,14 @@ Available both as a Python script and as a Windows EXE.
 
 ## ✨ Features
 
-— 🔑 Automatic key generation
-— 📁 File or directory mode
-— 🔒 AES256-based Fernet encryption
-— 🔓 Secure decryption
-— 📦 Windows EXE available (no Python needed)
-— 🛑 Skips internal files (key_file.txt, main.exe, main.py)
-— 📁 Recursive folder scanning
-— 🧱 Error handling with clear messages
+- 🔑 Automatic key generation
+- 📁 File or directory mode
+- 🔒 AES256-based Fernet encryption
+- 🔓 Secure decryption
+- 📦 Windows EXE available (no Python needed)
+- 🛑 Skips internal files (key_file.txt, main.exe, main.py)
+- 📁 Recursive folder scanning
+- 🧱 Error handling with clear messages
 
 ## 📥 Installation (Windows EXE)
 	1.	Download main.exe from the Releases tab.
