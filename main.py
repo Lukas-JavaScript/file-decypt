@@ -1,57 +1,10 @@
 from cryptography import fernet
+from crypto import encrypt_file, decrypt_file
+from get_all_files import file_paths, get_all_files_fnc
 import os
-
 key = fernet.Fernet.generate_key()
 folder_name = None
 file_name = None
-file_paths = []
-
-def get_all_files(directory):
-    try:
-        for root, dirs, files in os.walk(directory):
-            for file in files:
-                if (
-                    file == "key_file.txt"
-                    or file == "main.exe"
-                    or file == "main.py"
-                ):
-                    continue
-                file_paths.append(os.path.join(root, file))
-        return file_paths
-    except Exception as e:
-        print(f"An error occurred while accessing the directory: {e}")
-        input("Press Enter to exit...")
-        exit()
-
-
-def encrypt_file(file_path, key):
-    try:
-        with open(file_path, "rb") as file:
-            encrypted_data = file.read()
-
-        fernet_instance = fernet.Fernet(key)
-        encrypted_data = fernet_instance.encrypt(encrypted_data)
-        with open(file_path, "wb") as file:
-            file.write(encrypted_data)
-    except Exception as e:
-        print(f"An error occurred while encrypting:  {file_path}: {e}")
-        input("Press Enter to exit...")
-        exit()
-
-def decrypt_file(file_path, key):
-    try:
-        with open(file_path, 'rb') as file:
-            decrypted_data = file.read()
-        
-        fernet_instance = fernet.Fernet(key)
-        decrypted_data = fernet_instance.decrypt(decrypted_data)
-        
-        with open(file_path, 'wb') as file:
-            file.write(decrypted_data)
-    except Exception as e:
-        print(f"An error occurred during decryption: {file_path}: {e}")
-        input("Press Enter to exit...")
-        exit()
 
 while True:
     file_or_folder = input("Do you want to process a file or a folder? (f for file / d for directory): ")
@@ -104,7 +57,7 @@ while True:
         key_input = key_file.read()
         key = key_input.encode()
     if folder:
-        get_all_files(folder_name)
+        get_all_files_fnc(folder_name)
         for file in file_paths:
             if encrypting:
                 encrypt_file(file, key)
