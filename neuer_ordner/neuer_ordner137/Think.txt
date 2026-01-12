@@ -1,0 +1,2 @@
+LernOS ist ein Lernsystem, das auf dem Konzept des lebenslangen Lernens basiert.
+Es fördert die Selbstorganisation und die individuelle Gestaltung des Lernprozesses.

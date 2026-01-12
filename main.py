@@ -2,54 +2,69 @@ from cryptography import fernet
 from crypto import encrypt_file, decrypt_file
 from get_all_files import file_paths, get_all_files_fnc
 import os
-key = fernet.Fernet.generate_key()
+
+key = None  # Initialize key globally
 folder_name = None
 file_name = None
+decrypting = False
+encrypting = False
+input_choice = "None"
+int_choice = None
 
-while True:
-    file_or_folder = input("Do you want to process a file or a folder? (f for file / d for directory): ")
-    if file_or_folder.lower() == 'f':
-        file = True
-        folder = False
-        file_name = input("Enter the file name to process: ")
-        if not os.path.exists(file_name):
-            print(f"The file '{file_name}' does not exist. ")
-            input("Press Enter to exit...")
-            exit()
-        print(f"Processing file: {file_name}")
-    elif file_or_folder.lower() == 'd':
-        file = False
+def folder_or_file():
+    print("""Do you want to 
+    1. work with a folder 
+    2. work with a single file?
+    """)
+    input_choice = input("Enter 1 or 2: ")
+    int_choice = int(input_choice)
+    if int_choice == 1:
         folder = True
-        folder_name = input(f"Enter the folder name to create and process files: ")
-        if not os.path.exists(folder_name):
-            print(f"The folder '{folder_name}' does not exist. ")
-            input("Press Enter to exit...")
-            exit()
+        file = False
+        folder_name = input("Enter the folder path: ")
+    elif int_choice == 2:
+        folder = False
+        file = True
+        file_name = input("Enter the file path: ")
     else:
-        print("Invalid input. Please enter 'f' for file or 'd' for directory.")
+        print("Invalid choice. Exiting.")
         exit()
+    return folder, file
 
+def encrypting_or_decrypting():
+    global encrypting, decrypting, key  # Declare global variables
     print("""Do you want to 
     1.encrypt 
     2.decrypt 
-    the files'?
-    """)
+    the files'?""")
     input_choice = input("Enter 1 or 2: ")
     int_choice = int(input_choice)
     if int_choice == 1:
         encrypting = True
         decrypting = False
+        key = fernet.Fernet.generate_key()  # Generate key for encryption
     elif int_choice == 2:
         encrypting = False
         decrypting = True
+        try:
+            with open("key_file.txt", "r") as key_file:
+                key = key_file.read().encode()  # Read key for decryption
+        except FileNotFoundError:
+            print("Key file not found. Cannot decrypt.")
+            exit()
     else:
         print("Invalid choice. Exiting.")
         exit()
+
+def main():
+    folder, file = folder_or_file()
+    encrypting_or_decrypting()
     if encrypting:
         print("You chose to encrypt the files.")
         print("Schlüssel: ", key.decode())
         key_file = open("key_file.txt", "w")
         key_file.write(key.decode())
+        global key
         print("Please keep the key safe, otherwise this can never be decrypt again.")
     elif decrypting:
         print("You chose to decrypt the files.")
@@ -69,7 +84,13 @@ while True:
         elif decrypting:
             decrypt_file(file_name, key)
     print("Process completed.")
-    do_exit = input("Do you want to exit? (y/n): ")
-    if do_exit.lower() == 'y':
-        break
+ 
+if __name__ == "__main__":   
+    while True:
+        main()
+        do_exit = input("Do you want to exit? (y/n): ")
+        if do_exit.lower() == 'y':
+            break  
+
+
 input("Press Enter to exit...")
